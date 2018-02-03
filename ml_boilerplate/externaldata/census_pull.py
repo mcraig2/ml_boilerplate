@@ -3,6 +3,7 @@
 import os
 import pandas as pd
 from census import Census
+from functools import reduce
 from dotenv import load_dotenv
 from dotenv import find_dotenv
 
@@ -63,3 +64,29 @@ def income_variables(census=None):
 
     cols = columns_for_table('B19001', range(2, 18))
     return pull_census_columns(cols, census_api)
+
+
+def educational_attainment(census=None):
+    """ Pull educational variables for all zipcodes.
+
+        :param census: a Census API object
+
+        :return: A DataFrame with the educational variables as the
+            columns and the geography as the index. """
+    if census is None:
+        census_api = Census(census_key())
+
+    cols = columns_for_table('B15003', range(16, 26))
+    return pull_census_columns(cols, census_api)
+
+
+def census_pipeline(pipeline):
+    """ Given a list of functions, calls them all and joins them to get
+        a census dataset.
+
+        :param pipeline: a list of functions to combine
+
+        :return: a DataFrame with all the variables as columns and zipcode
+            as the index. """
+    return reduce(lambda x, y: pd.merge(x, y, left_index=True, right_index=True),
+                  (func() for func in pipeline))
