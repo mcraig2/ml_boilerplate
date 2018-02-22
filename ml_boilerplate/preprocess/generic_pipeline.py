@@ -1,5 +1,20 @@
-""" Create simple (or complex) preprocessing pipelines for heterogenous
-    data by extending sci-kit learn's Pipeline. """
+""" The Pipeline object in sci-kit learn is very useful for constructing
+    simple and complex modeling pipelines. However, out of the box it is
+    cumbersome to build pipelines that involve heterogenous data. Most
+    transformers assume that the entirety of the input datasets are of the
+    same dtype. So, how do you scale your numeric columns, make dummy
+    variables out of your categorical variables, run TF-IDF on your text
+    columns, and fit all of this into one pipeline? A possible solution
+    is:
+
+    http://scikit-learn.org/stable/auto_examples/hetero_feature_union.html
+
+    But building these FeatureUnion objects in a hardcoded fashion can be
+    cumbersome in and of itself. The DtypePipeline object here is a solution
+    to this. You can pass in Pipeline objects for each data type, and it
+    takes care of the rest.
+"""
+
 
 import bisect
 import copy
