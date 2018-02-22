@@ -362,7 +362,9 @@ if __name__ == '__main__':
     test = test.drop(dropcols, axis=1)
     X, y = train.drop('Survived', axis=1), train['Survived']
 
-    # Make the pipelines and combine them using DtypePipeline
+    ###########################################################
+    # Make the pipelines and combine them using DtypePipeline #
+    ###########################################################
     num_pipeline = Pipeline([('impute', Imputer()),
                              ('scaler', StandardScaler())])
     cat_pipeline = Pipeline([('impute', CategoricalImputer()),
